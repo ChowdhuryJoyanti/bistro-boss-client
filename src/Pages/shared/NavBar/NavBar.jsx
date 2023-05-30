@@ -1,14 +1,54 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../providers/AuthProvider';
+
+import { FaShoppingCart } from 'react-icons/fa';
+
+
+
+
 
 const NavBar = () => {
-const nabOptions = <>
-           <li><Link to="/">Home</Link></li> 
-           <li><Link to="/menu">Our Menu</Link></li> 
-           <li><Link to="/order/salad">Order Food</Link></li> 
-     
+    const { user, logOut } = useContext(AuthContext)
+    const handleLogOut = () => {
+        logOut()
+            .then(() => { })
+            .catch(error => console.log(error))
+    }
+    const nabOptions = <>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/menu">Our Menu</Link></li>
+        <li><Link to="/order/salad">Order Food</Link></li>
+        <li><Link to="/login">Login</Link></li>
+        <li><Link to="/secret">secret</Link></li>
 
-</>
+        <li>
+            <Link to="/">
+                <button className="btn gap-2">
+                <FaShoppingCart></FaShoppingCart>
+                    <div className="badge badge-secondary">+99</div>
+                </button>
+
+
+            </Link>
+
+        </li>
+
+
+
+        {
+            user ? <>
+                {/* <span>{user?.displayName}</span> */}
+                <button onClick={handleLogOut} className="btn btn-active btn-ghost">Log out</button>
+
+            </> : <>
+                <li><Link to="/login">Login</Link></li>
+
+            </>
+        }
+
+
+    </>
 
     return (
         <>
@@ -21,7 +61,7 @@ const nabOptions = <>
                         <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
 
 
-                         {nabOptions}
+                            {nabOptions}
                         </ul>
                     </div>
                     <a className="btn btn-ghost normal-case text-xl">Bistro Boss</a>
